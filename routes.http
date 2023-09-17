@@ -1,0 +1,37 @@
+# @name get-prompts
+GET http://localhost:3333/prompts
+
+###
+
+# @name upload-video
+POST http://localhost:3333/videos
+Content-Type: multipart/form-data; boundary=----WebkitFormTest
+
+------WebkitFormTest
+Content-Disposition: form-data; name="file"; filename="example.mp3"
+Content-Type: audio/mpeg
+
+< ./example.mp3
+------WebkitFormTest--
+
+###
+
+# @name create-transcription
+POST http://localhost:3333/videos/a9834182-1113-47cd-9f1f-80989d5e7758/transcription
+Content-Type: application/json
+
+{
+    "prompt": "galerinha, path of exile"
+}
+
+###
+
+# @name generate-ai-completion
+POST http://localhost:3333/ai/complete
+Content-Type: application/json
+
+{
+    "videoId": "a9834182-1113-47cd-9f1f-80989d5e7758",
+    "temperature": 0.5,
+    "prompt": "Gere um resumo sucinto da transcrição do vídeo informado a seguir: '''{transcription}'''"
+}
